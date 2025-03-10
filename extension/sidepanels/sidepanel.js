@@ -80,7 +80,7 @@ async function fetchAINotes() {
       }))
       .map(
         (entry) =>
-          `${entry.personName} (${entry.timeStamp})\n${entry.transcriptText}\n`
+          `${entry.personName} (${entry.timeStamp})\n${entry.transcriptText}\n`,
       )
       .join("");
 
@@ -144,14 +144,14 @@ async function fetchAINotes() {
                 }
                 return grouped;
               },
-              []
+              [],
             );
 
             return { ...acc, [key]: groupedTranscript };
           }
           return { ...acc, [key]: value };
         },
-        {}
+        {},
       );
 
       // Format the transcript in the desired style
@@ -215,7 +215,7 @@ async function fetchAINotes() {
                 .join("\n") // Restore newlines
                 .replace(
                   /(<li>.*?<\/li>)\n?(<li>.*?<\/li>)+/g,
-                  (list) => `<ul>${list}</ul>`
+                  (list) => `<ul>${list}</ul>`,
                 ) // Wrap consecutive list items
                 .replace(/\n/g, "<br>") // Convert remaining newlines to <br>
             : "No meeting notes available."
@@ -454,9 +454,9 @@ document.getElementById("download-transcript").addEventListener("click", () => {
           } else {
             alert("No transcript available to download");
           }
-        }
+        },
       );
-    }
+    },
   );
 });
 
@@ -551,7 +551,7 @@ document.getElementById("copy-to-clipboard").addEventListener("click", () => {
           console.error("Error tracking copy to clipboard:", error);
         });
       }
-    }
+    },
   );
 });
 
@@ -591,7 +591,7 @@ document.querySelectorAll(".copy-btn").forEach((button) => {
             console.error("Error tracking share:", error);
           });
         }
-      }
+      },
     );
 
     navigator.clipboard.writeText(text).then(() => {
@@ -768,7 +768,7 @@ document.getElementById("share-to-apps").addEventListener("click", () => {
       } else {
         alert("Web Share API is not supported in your browser");
       }
-    }
+    },
   );
 });
 
@@ -815,7 +815,6 @@ document
             console.error("Error tracking previous transcripts view:", error);
           });
         }
-      }
+      },
     );
   });
-

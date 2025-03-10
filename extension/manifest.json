@@ -1,6 +1,6 @@
 {
-  "name": "Amurex (Early Preview)",
-  "version": "1.0.26",
+  "name": "Local Amurex",
+  "version": "0.0.1",
   "manifest_version": 3,
   "description": "Your AI meeting Copilot",
   "side_panel": {
@@ -40,7 +40,7 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "Amurex",
+    "default_title": "Local Amurex",
     "default_icon": {
       "16": "icon.png",
       "48": "icon.png",
