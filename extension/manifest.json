@@ -32,8 +32,7 @@
     "https://teams.live.com/*",
     "https://teams.microsoft.com/*",
     "https://www.googleapis.com/*",
-    "https://api.amurex.ai/*",
-    "https://app.amurex.ai/*",
+    "http://localhost:8080/*",
     "http://localhost:3000/*"
   ],
   "background": {

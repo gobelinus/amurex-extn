@@ -2,7 +2,7 @@ const plt = { platform: "msteams" };
 chrome.storage.local.set(plt);
 console.log("MS teams platform local variable has been set");
 
-const BASE_URL_BACKEND = "https://api.amurex.ai";
+const BASE_URL_BACKEND = "http://localhost:8080";
 // Call the check function when the page loads
 checkUrlAndShowNotification();
 
@@ -97,7 +97,7 @@ function createAnimatedPanel(meetingId) {
           <div class="expanded-content" style="flex-grow: 1;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
               <div style="display: flex; align-items: center; gap: 12px;">
-                <img src="https://www.amurex.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FAmurexLogo.56901b87.png&w=64&q=75" 
+                <img src="/images/logo.png"
                   height="32px" 
                   width="32px" 
                   style="border-radius: 4px;"
@@ -262,7 +262,7 @@ function showNotificationLive(meetingText) {
   let logo = document.createElement("img");
   logo.setAttribute(
     "src",
-    "https://www.amurex.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FAmurexLogo.56901b87.png&w=64&q=75"
+    "/images/logo.png"
   );
   logo.setAttribute("height", "32px");
   logo.setAttribute("width", "32px");
@@ -440,7 +440,7 @@ function showNotification(extensionStatusJSON) {
   // Style logo
   logo.setAttribute(
     "src",
-    "https://www.amurex.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FAmurexLogo.56901b87.png&w=64&q=75"
+    "/images/logo.png"
   );
   logo.setAttribute("height", "32px");
   logo.setAttribute("width", "32px");

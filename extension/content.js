@@ -20,7 +20,7 @@ const reportErrorMessage =
   "There is a bug in Amurex. Please report it at https://discord.gg/ftUdQsHWbY";
 const mutationConfig = { childList: true, attributes: true, subtree: true };
 
-const BASE_URL_BACKEND = "https://api.amurex.ai";
+const BASE_URL_BACKEND = "http://localhost:8080";
 
 // Name of the person attending the meeting
 let userName = "You";
@@ -138,7 +138,7 @@ function setupWebSocket() {
 
       const wsUrl = `wss://${BASE_URL_BACKEND.replace(
         "https://",
-        ""
+        "",
       )}/ws?meeting_id=${meetingId}&user_id=${userId}`;
 
       console.log("WebSocket URL:", wsUrl);
@@ -158,7 +158,7 @@ function setupWebSocket() {
       ws.onerror = (error) => {
         console.error("WebSocket Error:", error);
       };
-    }
+    },
   );
 }
 
@@ -188,7 +188,7 @@ async function isAuthenticated() {
           name: "amurex_session",
         },
         {
-          url: "https://app.amurex.ai",
+          url: "http://localhost:3000",
           name: "amurex_session",
         },
       ],
@@ -268,7 +268,7 @@ const debouncedDoStuff = async function () {
             user_id: userId,
             isFileUploaded: isFileUploaded,
           },
-        })
+        }),
       );
     });
 
@@ -323,7 +323,7 @@ const debouncedDoStuff = async function () {
             },
             function () {
               console.log("Exceeded response notification stored in meetingQA");
-            }
+            },
           );
         });
 
@@ -357,7 +357,7 @@ const debouncedDoStuff = async function () {
             },
             function () {
               console.log("Q&A stored in chrome storage");
-            }
+            },
           );
         });
       }
@@ -421,7 +421,7 @@ function meetingRoutines(uiType) {
         { type: "new_meeting_started" },
         function (response) {
           console.log(response);
-        }
+        },
       );
       hasMeetingStarted = true;
       chrome.storage.local.set({ meetingQA: [] }, function () {
@@ -500,7 +500,7 @@ function meetingRoutines(uiType) {
         // **** TRANSCRIPT ROUTINES **** //
         const captionsButton = contains(
           captionsIconData.selector,
-          captionsIconData.text
+          captionsIconData.text,
           // CRITICAL DOM DEPENDENCY
         )[0];
 
@@ -535,7 +535,7 @@ function meetingRoutines(uiType) {
         // Start observing the transcript container for new speakers
         transcriptObserver.observe(transcriptTargetNode, {
           childList: true,
-          subtree: true
+          subtree: true,
         });
 
         // **** CHAT MESSAGES ROUTINES **** //
@@ -549,7 +549,7 @@ function meetingRoutines(uiType) {
           // CRITICAL DOM DEPENDENCY. Grab the chat messages element. This element is present, irrespective of chat ON/OFF, once it appears for this first time.
           try {
             const chatMessagesTargetNode = document.querySelectorAll(
-              'div[aria-live="polite"]'
+              'div[aria-live="polite"]',
             )[0];
 
             // Create chat messages observer instance linked to the callback function. Registered irrespective of operation mode.
@@ -557,7 +557,7 @@ function meetingRoutines(uiType) {
 
             chatMessagesObserver.observe(
               chatMessagesTargetNode,
-              mutationConfig
+              mutationConfig,
             );
           } catch (error) {
             console.error(error);
@@ -594,7 +594,7 @@ function meetingRoutines(uiType) {
         // CRITICAL DOM DEPENDENCY. Event listener to capture meeting end button click by user
         contains(
           meetingEndIconData.selector,
-          meetingEndIconData.text
+          meetingEndIconData.text,
         )[0].parentElement.parentElement.addEventListener("click", () => {
           // To suppress further errors
           hasMeetingEnded = true;
@@ -611,7 +611,7 @@ function meetingRoutines(uiType) {
             { meetingQA: [], hasMeetingEnded: true },
             function () {
               console.log("Meeting QA cleared due to meeting end");
-            }
+            },
           );
 
           transcriptObserver.disconnect();
@@ -623,7 +623,7 @@ function meetingRoutines(uiType) {
             pushBufferToTranscript();
           // Save to chrome storage and send message to download transcript from background script
           console.log(
-            "Saving to chrome storage and sending message to download transcript from background script"
+            "Saving to chrome storage and sending message to download transcript from background script",
           );
 
           chrome.runtime.sendMessage({ type: "meeting_ended" });
@@ -639,7 +639,7 @@ function meetingRoutines(uiType) {
         console.error(error);
         showNotification(extensionStatusJSON_bug);
       }
-    }
+    },
   );
 }
 
@@ -657,7 +657,7 @@ const checkElement = async (selector, text) => {
     // loops for every animation frame change, until the required element is found
     while (
       !Array.from(document.querySelectorAll(selector)).find(
-        (element) => element.textContent === text
+        (element) => element.textContent === text,
       )
     ) {
       await new Promise((resolve) => requestAnimationFrame(resolve));
@@ -694,10 +694,7 @@ function showNotification(extensionStatusJSON) {
     `;
 
   // Style logo
-  logo.setAttribute(
-    "src",
-    "https://www.amurex.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FAmurexLogo.56901b87.png&w=64&q=75"
-  );
+  logo.setAttribute("src", "/images/logo.png");
   logo.setAttribute("height", "32px");
   logo.setAttribute("width", "32px");
   logo.style.cssText = "border-radius: 4px";
@@ -749,10 +746,7 @@ function showNotificationLive() {
   `;
 
   // Style logo
-  logo.setAttribute(
-    "src",
-    "https://www.amurex.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FAmurexLogo.56901b87.png&w=64&q=75"
-  );
+  logo.setAttribute("src", "/images/logo.png");
   logo.setAttribute("height", "32px");
   logo.setAttribute("width", "32px");
   logo.style.cssText = "border-radius: 4px";
@@ -838,10 +832,7 @@ function showNotificationContextual(extensionStatusJSON) {
   let buttonContainer = document.createElement("div");
   obj.style.backgroundColor = "black";
 
-  logo.setAttribute(
-    "src",
-    "https://www.amurex.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FAmurexLogo.56901b87.png&w=64&q=75"
-  );
+  logo.setAttribute("src", "/images/logo.png");
   logo.setAttribute("height", "32px");
   logo.setAttribute("width", "32px");
   logo.style.cssText = "border-radius: 4px";
@@ -904,25 +895,25 @@ function showNotificationContextual(extensionStatusJSON) {
 }
 
 // CSS for notification
-const commonCSS = `background: rgb(255 255 255 / 10%); 
-    backdrop-filter: blur(16px); 
+const commonCSS = `background: rgb(255 255 255 / 10%);
+    backdrop-filter: blur(16px);
     position: fixed;
-    top: 5%; 
-    left: 0; 
-    right: 0; 
-    margin-left: auto; 
+    top: 5%;
+    left: 0;
+    right: 0;
+    margin-left: auto;
     margin-right: auto;
-    max-width: 780px;  
-    z-index: 1000; 
+    max-width: 780px;
+    z-index: 1000;
     padding: 0rem 1rem;
-    border-radius: 8px; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    gap: 16px;  
-    font-size: 1rem; 
-    line-height: 1.5; 
-    font-family: 'Google Sans',Roboto,Arial,sans-serif; 
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    font-size: 1rem;
+    line-height: 1.5;
+    font-family: 'Google Sans',Roboto,Arial,sans-serif;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;`;
 
 // Callback function to execute when transcription mutations are observed.
@@ -931,7 +922,10 @@ function transcriber(mutationsList, observer) {
     try {
       // Check for new speaker divs
       mutation.addedNodes.forEach((node) => {
-        if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('nMcdL')) {
+        if (
+          node.nodeType === Node.ELEMENT_NODE &&
+          node.classList.contains("nMcdL")
+        ) {
           const speakerId = Date.now(); // Unique ID for this speaker instance
           const speakerName = node.querySelector(".KcIKyf").textContent.trim();
           const captionsDiv = node.querySelector(".bh44bd");
@@ -939,8 +933,10 @@ function transcriber(mutationsList, observer) {
           // Initialize buffer for this speaker
           activeSpeakerBuffers.set(speakerId, {
             name: speakerName,
-            startTime: new Date().toLocaleString("default", timeFormat).toUpperCase(),
-            text: captionsDiv.textContent.trim()
+            startTime: new Date()
+              .toLocaleString("default", timeFormat)
+              .toUpperCase(),
+            text: captionsDiv.textContent.trim(),
           });
 
           // Create observer for this speaker's captions
@@ -948,7 +944,7 @@ function transcriber(mutationsList, observer) {
             const speakerBuffer = activeSpeakerBuffers.get(speakerId);
             if (speakerBuffer) {
               speakerBuffer.text = captionsDiv.textContent.trim();
-              
+
               // If caption length is too long, process it
               if (speakerBuffer.text.length > 250) {
                 processSpeakerTranscript(speakerId);
@@ -960,7 +956,7 @@ function transcriber(mutationsList, observer) {
           captionsObserver.observe(captionsDiv, {
             childList: true,
             characterData: true,
-            subtree: true
+            subtree: true,
           });
 
           speakerObservers.set(speakerId, captionsObserver);
@@ -974,7 +970,10 @@ function transcriber(mutationsList, observer) {
 
       // Check for removed speaker divs
       mutation.removedNodes.forEach((node) => {
-        if (node.nodeType === Node.ELEMENT_NODE && node.classList.contains('nMcdL')) {
+        if (
+          node.nodeType === Node.ELEMENT_NODE &&
+          node.classList.contains("nMcdL")
+        ) {
           // Process any remaining transcripts for removed speakers
           speakerObservers.forEach((observer, speakerId) => {
             processSpeakerTranscript(speakerId);
@@ -999,7 +998,7 @@ function processSpeakerTranscript(speakerId) {
     transcript.push({
       personName: speakerBuffer.name,
       timeStamp: speakerBuffer.startTime,
-      personTranscript: speakerBuffer.text
+      personTranscript: speakerBuffer.text,
     });
 
     // Save to storage
@@ -1008,10 +1007,12 @@ function processSpeakerTranscript(speakerId) {
     // Send via WebSocket if connected
     if (ws && ws.readyState === WebSocket.OPEN) {
       const formattedPayload = `${speakerBuffer.name} (${speakerBuffer.startTime})\n${speakerBuffer.text}\n`;
-      ws.send(JSON.stringify({
-        type: "transcript_update",
-        data: formattedPayload,
-      }));
+      ws.send(
+        JSON.stringify({
+          type: "transcript_update",
+          data: formattedPayload,
+        }),
+      );
     }
 
     // Cleanup
@@ -1031,7 +1032,7 @@ function chatMessagesRecorder(mutationsList, observer) {
     try {
       // CRITICAL DOM DEPENDENCY. Get all people in the transcript
       const chatMessagesElement = document.querySelectorAll(
-        'div[aria-live="polite"]'
+        'div[aria-live="polite"]',
       )[0];
       // Attempt to parse messages only if at least one message exists
       if (chatMessagesElement.children.length > 0) {
@@ -1082,7 +1083,7 @@ function pushUniqueChatBlock(chatBlock) {
     (item) =>
       item.personName == chatBlock.personName &&
       item.timeStamp == chatBlock.timeStamp &&
-      chatBlock.chatMessageText.includes(item.chatMessageText)
+      chatBlock.chatMessageText.includes(item.chatMessageText),
   );
   if (!isExisting) chatMessages.push(chatBlock);
 }
@@ -1127,9 +1128,9 @@ function createAnimatedPanel(meetingId) {
         <div class="expanded-content" style="flex-grow: 1;">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
             <div style="display: flex; align-items: center; gap: 12px;">
-              <img src="https://www.amurex.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FAmurexLogo.56901b87.png&w=64&q=75" 
-                height="32px" 
-                width="32px" 
+              <img src="/images/logo.png"
+                height="32px"
+                width="32px"
                 style="border-radius: 4px;"
               />
               <p style="color: #fff; margin: 0; font-size: 16px; font-weight: 500;">Meeting Summary</p>
@@ -1221,30 +1222,30 @@ function createAnimatedPanel(meetingId) {
                       // Handle headings first
                       if (line.startsWith("### ")) {
                         return `<h3 style="color: #fff; font-size: 16px; margin: 16px 0 8px 0;">${line.substring(
-                          4
+                          4,
                         )}</h3>`;
                       } else if (line.startsWith("## ")) {
                         return `<h2 style="color: #fff; font-size: 18px; margin: 20px 0 10px 0;">${line.substring(
-                          3
+                          3,
                         )}</h2>`;
                       } else if (line.startsWith("# ")) {
                         return `<h1 style="color: #fff; font-size: 20px; margin: 24px 0 12px 0;">${line.substring(
-                          2
+                          2,
                         )}</h1>`;
                       } else if (line.startsWith("- ")) {
                         return `<li style="margin-bottom: 8px;">${line.substring(
-                          2
+                          2,
                         )}</li>`;
                       } else {
                         return line
                           .replace(
                             /\*\*(.*?)\*\*/g,
-                            "<strong style='color: #c76dcc'>$1</strong>"
+                            "<strong style='color: #c76dcc'>$1</strong>",
                           )
                           .replace(/\*(.*?)\*/g, "<em>$1</em>")
                           .replace(
                             /\[(.*?)\]\((.*?)\)/g,
-                            '<a href="$2" style="color: #c76dcc; text-decoration: none;">$1</a>'
+                            '<a href="$2" style="color: #c76dcc; text-decoration: none;">$1</a>',
                           );
                       }
                     })
@@ -1252,7 +1253,7 @@ function createAnimatedPanel(meetingId) {
                     .replace(
                       /(<li>.*?<\/li>)\n?(<li>.*?<\/li>)+/g,
                       (list) =>
-                        `<ul style="list-style-type: none; padding-left: 0;">${list}</ul>`
+                        `<ul style="list-style-type: none; padding-left: 0;">${list}</ul>`,
                     )
                     .replace(/\n/g, "<br>")
                 : "No meeting notes available yet."
@@ -1265,7 +1266,7 @@ function createAnimatedPanel(meetingId) {
             </div>
           `;
         }
-      }
+      },
     );
   }
 }

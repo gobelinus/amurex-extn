@@ -278,7 +278,7 @@ async function injectNotification() {
   // Style logo
   logo.setAttribute(
     "src",
-    "https://www.amurex.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2FAmurexLogo.56901b87.png&w=64&q=75"
+    "/images/logo.png"
   );
   logo.setAttribute("height", "32px");
   logo.setAttribute("width", "32px");
